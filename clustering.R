@@ -12,7 +12,7 @@ head(wine)
 
 # Exercise 1: Remove the first column from the data and scale
 # it using the scale() function
-
+df <- scale(wine[-1])
 
 # Now we'd like to cluster the data using K-Means. 
 # How do we decide how many clusters to use if you don't know that already?
@@ -51,13 +51,14 @@ barplot(table(nc$Best.n[1,]),
 
 
 # Exercise 3: How many clusters does this method suggest?
-
+# 3 clusters
 
 # Exercise 4: Once you've picked the number of clusters, run k-means 
 # using this number of clusters. Output the result of calling kmeans()
 # into a variable fit.km
 
-# fit.km <- kmeans( ... )
+set.seed(100)
+fit.km <- kmeans(df, 3, iter.max = 1000)
 
 # Now we want to evaluate how well this clustering does.
 
@@ -65,9 +66,12 @@ barplot(table(nc$Best.n[1,]),
 # compares to the actual wine types in wine$Type. Would you consider this a good
 # clustering?
 
+table(fit.km$cluster, wine$Type)
 
 # Exercise 6:
 # * Visualize these clusters using  function clusplot() from the cluster library
 # * Would you consider this a good clustering?
-
-#clusplot( ... )
+library(cluster)
+library(rattle)
+clusplot(wine, fit.km$cluster)
+# Yes, this is a good clustering
